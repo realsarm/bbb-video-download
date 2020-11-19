@@ -9,3 +9,12 @@ services:
       - ./tmp:/home/bigbluebutton/tmp
     security_opt:
       - seccomp:"./chrome.json"
+  csv:
+    build:
+      context: ./csv
+      dockerfile: Dockerfile.csv
+    volumes:
+      - /var/bigbluebutton/published/presentation:/var/bigbluebutton/published/presentation
+      - /var/bigbluebutton/recording/raw/:/var/bigbluebutton/recording/raw/
+    security_opt:
+      - seccomp:"./chrome.json"
