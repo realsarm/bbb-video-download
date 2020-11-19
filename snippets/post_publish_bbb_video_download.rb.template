@@ -41,12 +41,19 @@ meeting_metadata = BigBlueButton::Events.get_meeting_metadata("/var/bigbluebutto
 
 require 'shellwords'
 input_dir = Shellwords.escape(published_files)
+input_xml_file = Shellwords.escape("/var/bigbluebutton/recording/raw/#{meeting_id}/events.xml")
 output_file = Shellwords.escape("#{published_files}/video.mp4")
+output_csv_file = Shellwords.escape("#{published_files}/data.csv")
 base_dir = '${BBB_VIDEO_DOWNLOAD_DIR}'
 
 BigBlueButton.logger.info("Create downloadable video for [#{meeting_id}] start")
 rs = `cd #{base_dir} && docker-compose run --rm --user ${BBB_UID}:${BBB_GID} app node index.js -i #{input_dir} -o #{output_file}`
+vc = `cd #{base_dir} &&  docker-compose run --rm --user ${BBB_UID}:${BBB_GID} csv ruby example.rb  #{input_xml_file} #{output_csv_file}`
 BigBlueButton.logger.info(rs)
 BigBlueButton.logger.info("Create downloadable video for [#{meeting_id}] end")
+BigBlueButton.logger.info("Create Meeting CSV for [#{meeting_id}] start")
+# Parse the recording's events.xml.
+BigBlueButton.logger.info(vc)
+BigBlueButton.logger.info("Create Meeting CSV for [#{meeting_id}] end")
 
 exit 0
