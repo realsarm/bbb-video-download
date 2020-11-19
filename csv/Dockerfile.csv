@@ -1,0 +1,6 @@
+FROM ruby:2.5.8-alpine3.12
+RUN adduser -D bigbluebutton bigbluebutton
+USER bigbluebutton
+WORKDIR /home/bigbluebutton
+COPY . .
+RUN bundle install
